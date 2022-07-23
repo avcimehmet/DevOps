@@ -26,7 +26,7 @@ $ mkdir terraform-aws && cd terraform-aws && touch main.tf
 
 - Create a file named `main.tf` for the configuration code and copy and paste the following content. 
 
-```t
+```go
 provider "aws" {
   region  = "us-east-1"
 }
@@ -169,7 +169,7 @@ terraform graph
 
 - Now add the followings to the `main.tf` file.  Then run the commands `terraform apply or terraform refresh` and `terraform output`. `terraform output` command is used for reading an output from a state file. It reads an output variable from a Terraform state file and prints the value. With no additional arguments, output will display all the outputs for the (parent) root module.  If NAME is not specified, all outputs are printed.
 
-```bash
+```go
 output "tf_example_public_ip" {
   value = aws_instance.tf-ec2.public_ip
 }
@@ -217,7 +217,7 @@ terraform apply -auto-approve
 
 -  Go to the `main.tf` file and make the changes. We will change the ami id with the Ubuntu instance. Also change the value of EC2 instance tag and name of the S3 bucket.
 
-```bash
+```go
 resource "aws_instance" "tf-ec2" {
     # ami           = "ami-0742b4e673072066f"
     ami           = "ami-042e8287309f5df03"
@@ -243,7 +243,7 @@ terraform apply
 
 - Make the new changes in the `main.tf` file.
 
-```bash
+```go
 output "tf_example_private_ip" {
   value = aws_instance.tf-ec2.private_ip
 }
@@ -290,7 +290,7 @@ terraform destroy
 
 - Make the changes in the `main.tf` file.
 
-```bash
+```go
 provider "aws" {
   region  = "us-east-1"
 }
@@ -362,7 +362,7 @@ terraform apply
 
 - Go to the `variables.tf` file and comment the s3 bucket name variable's default value.
 
-```tf
+```go
 variable "s3_bucket_name" {
 #   default     = "oliver-new-s3-bucket-addwhateveryouwant"
 }
@@ -403,7 +403,7 @@ terraform plan
 
 - Create a file name `terraform.tfvars`. Add the followings.
 
-```bash
+```go
 s3_bucket_name = "tfvars-bucket"
 ```
 
@@ -415,7 +415,7 @@ terraform plan
 
 - Create a file name `oliver.tfvars`. Add the followings.
 
-```bash
+```go
 s3_bucket_name = "oliver-tfvar-bucket"
 ```
 
@@ -427,7 +427,7 @@ terraform plan --var-file="oliver.tfvars"
 
 - Create a file named `oliver.auto.tfvars`. Add the followings.
 
-```bash
+```go
 s3_bucket_name = "oliver-auto-tfvar-bucket"
 ```
 
@@ -455,7 +455,7 @@ terraform apply
 
 - Make the changes in the `main.tf` file.
 
-```bash
+```go
 locals {
   mytag = "oliver-local-name"
 }
@@ -499,7 +499,7 @@ terraform apply
 
 - Go to the `variables.tf` file and create a new variable.
 
-```t
+```go
 variable "num_of_buckets" {
   default = 2
 }
@@ -507,7 +507,7 @@ variable "num_of_buckets" {
 
 - Go to the `main.tf` file, make the changes in order.
 
-```bash
+```go
 resource "aws_s3_bucket" "tf-s3" {
   bucket = "${var.s3_bucket_name}-${count.index}"
   count = var.num_of_buckets
@@ -538,7 +538,7 @@ terraform apply
 
 - Go to the `main.tf` file, make the changes in order.
 
-```bash
+```go
 resource "aws_s3_bucket" "tf-s3" {
   bucket = "${var.s3_bucket_name}-${count.index}"
 
@@ -557,15 +557,15 @@ terraform plan
 
 - Go to the `variables.tf` file again and add a new variable.
 
-```bash
+```go
 variable "users" {
   default = ["santino", "michael", "fredo"]
 }
 ```
 
-- Go to the `main.tf` file make the changes. Change the IAM role and add IAMFullAccess policy.
+- Go to the `main.tf` file make the changes. Change the IAM role and add ``IAMFullAccess`` policy.
 
-```bash
+```go
 resource "aws_s3_bucket" "tf-s3" {
   # bucket = "var.s3_bucket_name.${count.index}"
   # count = var.num_of_buckets
