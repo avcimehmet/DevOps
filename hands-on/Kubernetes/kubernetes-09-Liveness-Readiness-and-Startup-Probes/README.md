@@ -358,7 +358,7 @@ spec:
     spec:
       containers:
       - name: readiness
-        image: clarusway/probes
+        image: clarusway/readinessprobe
         ports:
         - containerPort: 80
         readinessProbe:
@@ -382,6 +382,28 @@ spec:
   type: NodePort
 ```
 
+- In this image (clarusway/readinessprobe), for the `first 45 seconds` the container returns a status of 500. Than the container will return a status of `200`. 
+
+```py
+app = Flask(__name__)
+
+start = time.time()
+
+@app.route('/')
+def home():
+    return "Welcome to Clarusway Kubernetes Lesson"
+
+@app.route("/healthz")
+def health_check():
+    end = time.time()
+    duration = end - start
+    if duration > 60:
+        return Response("{'lesson':'k8s'}", status=200)
+
+if __name__== '__main__':
+    app.run(host="0.0.0.0", port=80)
+```
+
 - To try the HTTP readiness check, create a deployment and service:
 
 ```bash
@@ -398,9 +420,9 @@ kubectl get ep
 kubectl describe ep readiness-http
 ```
 
-- After 30 seconds, view endpoint `NotReadyAddresses` fields to verify that the ports are running but they are excluded from endpoint.
+- Before 45 seconds, view endpoint `NotReadyAddresses` fields to verify that the ports are running but they are excluded from endpoint.
 
-- Delete a pod and see one of pod will be ready for service. After 30 seconds, it will be excluded from endpoint again.
+- Delete a pod and see one of pod will be not ready for service. After 45 seconds, it will be included by endpoint again.
 
 ```bash
 kubectl get pod
