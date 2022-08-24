@@ -91,6 +91,13 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm search repo bitnami
 ```
 
+- If you want to download and look at the files for a published chart, without installing it, you can do so with `helm pull chartrepo/chartname`.
+
+```bash
+helm pull bitnami/mysql
+tar -xvf mysql-*.tgz
+```
+
 - Type the `helm install command` to install a chart.
 
 ```bash
@@ -245,7 +252,14 @@ helm uninstall myvalue
 helm install --debug --dry-run setflag clarus-chart --set course=AWS
 ```
 
-- We can also get values with built-in objects. Objects can be simple and have just one value. Or they can contain other objects or functions. For example. the Release object contains several objects (like Release.Name) and the Files object has a few functions.
+### Predefined Values
+
+- Values that are supplied via a values.yaml file (or via the --set flag) are accessible from the .Values object in a template. But there are other pre-defined pieces of data you can access in your templates. For example:
+
+  - Release.Name: The name of the release (not the chart)
+  - Release.Namespace: The namespace the chart was released to.
+
+- These values are pre-defined, are available to every template, and cannot be overridden. As with all values, the names are case sensitive.
 
 - Edit the clarus-chart/templates/configmap.yaml as below.
 

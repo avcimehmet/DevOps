@@ -397,7 +397,7 @@ def home():
 def health_check():
     end = time.time()
     duration = end - start
-    if duration > 60:
+    if duration > 45:
         return Response("{'lesson':'k8s'}", status=200)
 
 if __name__== '__main__':
