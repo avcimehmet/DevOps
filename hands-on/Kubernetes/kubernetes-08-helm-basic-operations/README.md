@@ -676,6 +676,8 @@ cd mygithubrepo
 echo "# mygithubrepo" >> README.md
 git init
 git add README.md
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
 git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/<your github name>/mygithubrepo.git
@@ -706,8 +708,6 @@ helm repo index .
 
 ```bash
 git add .
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
 git commit -m "demogitrepo chart is added"
 git push
 ```
