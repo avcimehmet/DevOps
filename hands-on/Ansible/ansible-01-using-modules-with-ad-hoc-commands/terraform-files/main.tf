@@ -33,6 +33,16 @@ resource "aws_instance" "amazon-linux-2" {
   }
 }
 
+resource "aws_instance" "ubuntu" {
+  ami = "ami-08d4ac5b634553e16"
+  instance_type = var.instancetype
+  key_name = var.mykey
+  vpc_security_group_ids = [aws_security_group.tf-sec-gr.id]
+  tags = {
+    Name = "ubuntu-node",
+    env = "ansible"
+  }
+}
 
 resource "aws_instance" "ubuntu" {
   ami = "ami-04505e74c0741db8d"
