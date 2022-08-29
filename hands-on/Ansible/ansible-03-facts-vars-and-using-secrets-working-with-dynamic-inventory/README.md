@@ -19,7 +19,7 @@ At the end of this hands-on training, students will be able to;
 
 - Part 3 - Working with sensitive data
 
-Part 4 - Working with dynamic inventory
+- Part 4 - Working with dynamic inventory
 
 ## Part 1 - Install Ansible
 
