@@ -2,7 +2,7 @@
 
 Reverse Input Number.
 
-Purpose of the this coding challenge is to write a script that reverse the given numbers.
+Purpose of the this coding challenge is to write a ansible playbook which clone a github repository to manage nodes. 
 
 
 ## Learning Outcomes
