@@ -121,7 +121,7 @@ spec:
         app: todoapp
     spec:
       containers:
-      - image: mongo
+      - image: mongo:5.0
         name: mongo
         ports:
         - containerPort: 27017
