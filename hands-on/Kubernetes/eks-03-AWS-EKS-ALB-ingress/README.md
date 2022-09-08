@@ -142,7 +142,7 @@ eksctl create cluster --region us-east-1  --zones us-east-1a,us-east-1b,us-east-
 - Note that the default value for node-type is m5.large.
 
 ```bash
-$ eksctl create cluster --help
+eksctl create cluster --help
 ```
 
 - Show the aws `eks service` on aws management console and explain `eksctl-mycluster-cluster` stack on `cloudformation service`.
@@ -437,8 +437,8 @@ ingress-clarusshop   <none>   clarusshop.clarusway.us   k8s-default-ingressc-38a
 - Delete the cluster
 
 ```bash
-$ eksctl get cluster
+eksctl get cluster
 NAME            REGION
 cwcluster       us-east-1
-$ eksctl delete cluster cwcluster
+eksctl delete cluster cwcluster
 ```
