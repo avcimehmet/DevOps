@@ -118,7 +118,11 @@ resource "null_resource" "config" {
     host = aws_instance.control_node.public_ip
     type = "ssh"
     user = "ec2-user"
+<<<<<<< HEAD
     private_key = file("~/.ssh/${var.mykey}.pem")
+=======
+    private_key = file("~/.ssh/${var.mykeypem}")
+>>>>>>> 5200f5bda21a4fd4af66c6f74fd837d21a7db0c8
     # Do not forget to define your key file path correctly!
   }
 
