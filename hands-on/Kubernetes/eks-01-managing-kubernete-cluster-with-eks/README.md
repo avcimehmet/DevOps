@@ -72,7 +72,7 @@ aws configure
 - aws configuration
 
 ```bash
-$ aws configure
+  aws configure
   AWS Access Key ID [None]: xxxxxxx
   AWS Secret Access Key [None]: xxxxxxxx
   Default region name [None]: us-east-1
@@ -82,7 +82,7 @@ $ aws configure
 - Verify that you can see your cluster listed, when authenticated
 
 ```bash
-$ aws eks list-clusters
+aws eks list-clusters
 {
   "clusters": []
 }
@@ -160,7 +160,7 @@ $ aws eks list-clusters
 2. Verify that you can see your cluster listed, when authenticated
 
 ```bash
-$ aws eks list-clusters
+aws eks list-clusters
 {
   "clusters": [
     "my-cluster"
@@ -200,7 +200,7 @@ kubectl get node
 2. Wait until seeing the ```ACTIVE``` status for the cluster.
 
 ```bash
-$ aws eks describe-cluster --name <cluster-name> --query cluster.status
+aws eks describe-cluster --name <cluster-name> --query cluster.status
   "ACTIVE"
 ```
 
