@@ -210,7 +210,7 @@ scrape_configs:
 
 ```bash
 wget https://dl.grafana.com/enterprise/release/grafana-enterprise-9.1.5-1.x86_64.rpm
-sudo yum install grafana-enterprise-9.1.5-1.x86_64.rpm
+sudo yum install grafana-enterprise-9.1.5-1.x86_64.rpm -y
 sudo systemctl start grafana-server.service
 ```
 

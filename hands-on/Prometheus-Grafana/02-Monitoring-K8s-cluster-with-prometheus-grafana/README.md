@@ -26,7 +26,7 @@ At the end of this hands-on training, students will be able to;
 - Check if Kubernetes is running.
 
 ```bash
-$ kubectl cluster-info
+kubectl cluster-info
 ```
 
 ## Part 2 - Deploying Prometheus server
@@ -34,7 +34,7 @@ $ kubectl cluster-info
 - Create a dedicated namespace for the Prometheus deployment.
 
 ```bash
-$ kubectl create namespace prometheus
+kubectl create namespace prometheus
 ```
 
 - Create yaml file named **ClusterRole.yml** and explain fields of it.
@@ -79,7 +79,7 @@ subjects:
 - Create a ClusterRole and bind this role to prometheus namespace.
 
 ```bash
-$ kubectl apply -f ClusterRole.yml
+kubectl apply -f ClusterRole.yml
 
 clusterrole.rbac.authorization.k8s.io/prometheus created
 clusterrolebinding.rbac.authorization.k8s.io/prometheus created
@@ -240,7 +240,7 @@ data:
 - Create a Kubernetes configmap that contains scraping and alerting rules for Prometheus.
 
 ```bash
-$ kubectl apply -f ConfigMap.yml
+kubectl apply -f ConfigMap.yml
 
 configmap/prometheus-server-conf created
 ```
@@ -289,7 +289,7 @@ spec:
 - Deploy Prometheus.
 
 ```bash
-$ kubectl create -f PrometheusDeployment.yml
+kubectl create -f PrometheusDeployment.yml
 
 deployment.apps/prometheus-deployment created
 ```
@@ -297,7 +297,7 @@ deployment.apps/prometheus-deployment created
 - Validate that Prometheus is running.
 
 ```bash
-$ kubectl get pods -n prometheus
+kubectl get pods -n prometheus
 
 NAME                                     READY   STATUS    RESTARTS   AGE
 prometheus-deployment-78fb5694b4-lmz4r   1/1     Running   0          15s
@@ -335,13 +335,13 @@ spec:
 - Apply ServiceNodePort.yml.
 
 ```bash
-$ kubectl apply -f ServiceNodePort.yml
+kubectl apply -f ServiceNodePort.yml
 ```
 
 - Check the assigned port that the metrics will be exposed.
 
 ```bash
-$ kubectl get svc -n prometheus
+kubectl get svc -n prometheus
 
 NAME                    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 web-prometheus-server   NodePort   10.106.87.104   <none>        90:32000/TCP   28s
@@ -370,14 +370,14 @@ sudo dpkg -i grafana-enterprise_9.0.0_amd64.deb
 - To start the service:
 
 ```bash
-$ sudo systemctl daemon-reload
-$ sudo systemctl start grafana-server
+sudo systemctl daemon-reload
+sudo systemctl start grafana-server
 ```
 
 - To verify that the service has started:
 
 ```bash
-$ sudo systemctl status grafana-server
+sudo systemctl status grafana-server
 
 grafana-server.service - Grafana instance
      Loaded: loaded (/lib/systemd/system/grafana-server.service; disabled; vendor preset: enabled)
