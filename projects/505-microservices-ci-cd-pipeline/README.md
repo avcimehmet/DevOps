@@ -1,4 +1,4 @@
-# Project 504: Microservices CI/CD Pipeline
+# Project 505: Microservices CI/CD Pipeline
 
 ## Description
 
@@ -8,15 +8,15 @@ This project aims to create full CI/CD Pipeline for microservice based applicati
 
 ### Development Diagram
 
-![Development Diagram](./project-504-dev-diagram.png)
+![Development Diagram](./project-505-dev-diagram.png)
 
 ### Pipelines Configurations
 
-![Pipelines to be configured](./project-504-pipelines.png)
+![Pipelines to be configured](./project-505-pipelines.png)
 
 ### Pipelines Overview
 
-![Pipelines to be configured](./project-504-general.png)
+![Pipelines to be configured](./project-505-general.png)
 
 ## Flow of Tasks for Project Realization
 
@@ -729,7 +729,7 @@ git branch feature/msp-10
 git checkout feature/msp-10
 ```
 
-* Create a folder for Selenium jobs with the name of `selenium-jobs`.
+* Create a folder for Selenium jobs with the name of `selenium-jobs` under under `petclinic-microservices-with-db` folder.
 
 ``` bash
 mkdir selenium-jobs
@@ -981,4 +981,67 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 * Search and select `GitHub Integration`,  `Docker Plugin`,  `Docker Pipeline`, and `Jacoco` plugins, then click `Install without restart`. Note: No need to install the other `Git plugin` which is already installed can be seen under `Installed` tab.
 
-* Configure Docker as `cloud agent` by navigating to `Manage Jenkins` >> `Manage Nodes and Clouds` >> `Configure Clouds` and using `tcp://localhost:2375` as Docker Host URI.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+## MSP 13 - Prepare Continuous Integration (CI) Pipeline
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+* Create `feature/msp-13` branch from `dev`.
+
+``` bash
+git checkout dev
+git branch feature/msp-13
+git checkout feature/msp-13
+```
+
+* Create a folder, named `jenkins`, to keep `Jenkinsfiles` and `Jenkins jobs` of the project.
+
+``` bash
+mkdir jenkins
+```
+* Create a Jenkins job with the name of `petclinic-ci-job`: 
+  * Select `Freestyle project` and click `OK`
+  * Select github project and write the url to your repository's page into `Project url` (https://github.com/[your-github-account]/petclinic-microservices)
+  * Under the `Source Code Management` select `Git` 
+  * Write the url of your repository into the `Repository URL` (https://github.com/[your-github-account]/petclinic-microservices.git)
+  * Add `*/dev`, `*/feature**` and `*/bugfix**` branches to `Branches to build`
+  * Select `GitHub hook trigger for GITScm polling` under  `Build triggers`
+  * Select `Add timestamps to the Console Output` under `Build Environment`
+  * Click `Add build step` under `Build` and select `Execute Shell`
+  * Write below script into the `Command`
+    ```bash
+    echo 'Running Unit Tests on Petclinic Application'
+    docker run --rm -v $HOME/.m2:/root/.m2 -v `pwd`:/app -w /app maven:3.8-openjdk-11 mvn clean test
+    ```
+  * Click `Add post-build action` under `Post-build Actions` and select `Record jacoco coverage report`
+  * Click `Save`
+  
+* Jenkins `CI Job` should be triggered to run on each commit of `feature**` and `bugfix**` branches and on each `PR` merge to `dev` branch.
+
+* Prepare a script for Jenkins CI job (covering Unit Test only) and save it as `jenkins-petclinic-ci-job.sh` under `jenkins` folder.
+
+``` bash
+echo 'Running Unit Tests on Petclinic Application'
+docker run --rm -v $HOME/.m2:/root/.m2 -v `pwd`:/app -w /app maven:3.8-openjdk-11 mvn clean test
+```
+* Create a webhook for Jenkins CI Job; 
+
+  + Go to the project repository page and click on `Settings`.
+
+  + Click on the `Webhooks` on the left hand menu, and then click on `Add webhook`.
+
+  + Copy the Jenkins URL, paste it into `Payload URL` field, add `/github-webhook/` at the end of URL, and click on `Add webhook`.
+  
+  ``` text
+  http://[jenkins-server-hostname]:8080/github-webhook/
+  ```
+
+* Commit the change, then push the Jenkinsfile to the remote repo.
+
+``` bash
+git add .
+git commit -m 'added Jenkins Job for CI pipeline'
+git push --set-upstream origin feature/msp-13
+git checkout dev
+git merge feature/msp-13
+git push origin dev
+```
