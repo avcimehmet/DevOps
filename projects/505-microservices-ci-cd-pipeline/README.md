@@ -998,23 +998,31 @@ git checkout feature/msp-13
 ``` bash
 mkdir jenkins
 ```
-* Create a Jenkins job with the name of `petclinic-ci-job`: 
-  * Select `Freestyle project` and click `OK`
-  * Select github project and write the url to your repository's page into `Project url` (https://github.com/[your-github-account]/petclinic-microservices)
-  * Under the `Source Code Management` select `Git` 
-  * Write the url of your repository into the `Repository URL` (https://github.com/[your-github-account]/petclinic-microservices.git)
-  * Add `*/dev`, `*/feature**` and `*/bugfix**` branches to `Branches to build`
-  * Select `GitHub hook trigger for GITScm polling` under  `Build triggers`
-  * Select `Add timestamps to the Console Output` under `Build Environment`
-  * Click `Add build step` under `Build` and select `Execute Shell`
-  * Write below script into the `Command`
-    ```bash
-    echo 'Running Unit Tests on Petclinic Application'
-    docker run --rm -v $HOME/.m2:/root/.m2 -v `pwd`:/app -w /app maven:3.8-openjdk-11 mvn clean test
-    ```
-  * Click `Add post-build action` under `Post-build Actions` and select `Record jacoco coverage report`
-  * Click `Save`
-  
+* Create a ``Jenkins job`` Running Unit Tests on Petclinic Application
+
+```yml
+- job name: petclinic-ci-job
+- job type: Freestyle project
+- GitHub project: https://github.com/[your-github-account]/petclinic-microservices
+- Source Code Management: Git
+      Repository URL: https://github.com/[your-github-account]/petclinic-microservices.git
+- Branches to build:
+      Branch Specifier (blank for 'any'): - */dev 
+                                          - */feature**
+                                          - */bugfix**
+- Build triggers: GitHub hook trigger for GITScm polling
+- Build Environment: Add timestamps to the Console Output
+-Post-build Actions:
+     Add post-build action: Record jacoco coverage report
+- Build:
+      Add build step: Execute Shell
+      Command:
+```
+```bash
+echo 'Running Unit Tests on Petclinic Application'
+docker run --rm -v $HOME/.m2:/root/.m2 -v `pwd`:/app -w /app maven:3.8-openjdk-11 mvn clean test
+```
+
 * Jenkins `CI Job` should be triggered to run on each commit of `feature**` and `bugfix**` branches and on each `PR` merge to `dev` branch.
 
 * Prepare a script for Jenkins CI job (covering Unit Test only) and save it as `jenkins-petclinic-ci-job.sh` under `jenkins` folder.
@@ -1023,6 +1031,7 @@ mkdir jenkins
 echo 'Running Unit Tests on Petclinic Application'
 docker run --rm -v $HOME/.m2:/root/.m2 -v `pwd`:/app -w /app maven:3.8-openjdk-11 mvn clean test
 ```
+
 * Create a webhook for Jenkins CI Job; 
 
   + Go to the project repository page and click on `Settings`.
@@ -1031,7 +1040,7 @@ docker run --rm -v $HOME/.m2:/root/.m2 -v `pwd`:/app -w /app maven:3.8-openjdk-1
 
   + Copy the Jenkins URL, paste it into `Payload URL` field, add `/github-webhook/` at the end of URL, and click on `Add webhook`.
   
-  ``` text
+  ``` yml
   http://[jenkins-server-hostname]:8080/github-webhook/
   ```
 
@@ -1045,7 +1054,6 @@ git checkout dev
 git merge feature/msp-13
 git push origin dev
 ```
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ## MSP 14 - Create Docker Registry for Dev Manually
@@ -1064,10 +1072,6 @@ git checkout feature/msp-14
 ```yml
 - job name: create-ecr-docker-registry-for-dev
 - job type: Freestyle project
-- Source Code Management: Git
-      Repository URL: https://github.com/[your-github-account]/petclinic-microservices.git
-- Branches to build:
-      Branch Specifier (blank for 'any'): */dev 
 - Build:
       Add build step: Execute Shell
       Command:
@@ -1078,18 +1082,11 @@ APP_REPO_NAME="clarusway-repo/petclinic-app-dev"
 AWS_REGION="us-east-1"
 
 aws ecr describe-repositories --region ${AWS_REGION} --repository-name ${APP_REPO_NAME} || \
-
-if [ $(echo $?) -eq 0 ]
-   then
-	echo "ecr repo already created"
-	
-   else
-     aws ecr create-repository \
-     --repository-name ${APP_REPO_NAME} \
-     --image-scanning-configuration scanOnPush=false \
-     --image-tag-mutability MUTABLE \
-     --region us-east-1
-fi
+aws ecr create-repository \
+--repository-name ${APP_REPO_NAME} \
+--image-scanning-configuration scanOnPush=false \
+--image-tag-mutability MUTABLE \
+--region us-east-1
 ```
 
 * Prepare a script to create Docker Registry for `dev` on AWS ECR and save it as `create-ecr-docker-registry-for-dev.sh` under `infrastructure` folder.
@@ -1100,18 +1097,11 @@ APP_REPO_NAME="clarusway-repo/petclinic-app-dev"
 AWS_REGION="us-east-1"
 
 aws ecr describe-repositories --region ${AWS_REGION} --repository-name ${APP_REPO_NAME} || \
-
-if [ $(echo $?) -eq 0 ]
-   then
-	echo "ecr repo already created"
-	
-   else
-     aws ecr create-repository \
-     --repository-name ${APP_REPO_NAME} \
-     --image-scanning-configuration scanOnPush=false \
-     --image-tag-mutability MUTABLE \
-     --region us-east-1
-fi
+aws ecr create-repository \
+--repository-name ${APP_REPO_NAME} \
+--image-scanning-configuration scanOnPush=false \
+--image-tag-mutability MUTABLE \
+--region us-east-1
 ```
 
 * Commit the change, then push the script to the remote repo.
