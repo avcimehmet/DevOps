@@ -100,7 +100,7 @@ eksctl version
 
 ## Part 2 - Creating the Kubernetes Cluster on EKS
 
-- If needed create ssh-key with commnad `ssh-keygen -f ~/.ssh/id_rsa`
+- If needed create ssh-key with command `ssh-keygen -f ~/.ssh/id_rsa`.
 
 - Configure AWS credentials. Or you can attach `AWS IAM Role` to your EC2 instance.
 
