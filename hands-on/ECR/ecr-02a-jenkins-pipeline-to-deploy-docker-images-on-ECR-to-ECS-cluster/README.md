@@ -167,6 +167,7 @@ FROM node:12-alpine
 WORKDIR /app
 COPY . .
 RUN yarn install --production
+EXPOSE 3000
 CMD ["node", "/app/src/index.js"]
 ```
 - Press "ESC" and ":wq " to save.
@@ -358,7 +359,7 @@ Note: If you don't have ecsTaskExecutionRole, you can create as below.
 ```bash
 Use case : Elastic Container Service >>> Elastic Container Service task
 Policy.  : AmazonECSTaskExecutionRolePolicy
-Name     : PolicyforECS
+Name     : ecsTaskExecutionRole
 ```
 
 - Register the task definition with the following command.
