@@ -29,35 +29,35 @@ ssh -i .ssh/call-training.pem ec2-user@ec2-3-133-106-98.us-east-2.compute.amazon
 - Update the installed packages and package cache on your instance.
 
 ```bash
-$ sudo yum update -y
+sudo yum update -y
 ```
 
 - Install yum-config-manager to manage your repositories.
 
 ```bash
-$ sudo yum install -y yum-utils
+sudo yum install -y yum-utils
 ```
 - Use yum-config-manager to add the official HashiCorp Linux repository to the directory of /etc/yum.repos.d.
 
 ```bash
-$ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
 ```
 
 - Install Terraform.
 
 ```bash
-$ sudo yum -y install terraform
+sudo yum -y install terraform
 ```
 
 - Verify that the installation
 
 ```bash
-$ terraform version
+terraform version
 ```
 - list Terraform's available subcommands.
 
 ```bash
-$ terraform -help
+terraform -help
 Usage: terraform [-version] [-help] <command> [args]
 
 The available commands for execution are listed below.
@@ -75,9 +75,9 @@ Common commands:
 - Add any subcommand to terraform -help to learn more about what it does and available options.
 
 ```bash
-$ terraform -help apply
+terraform -help apply
 or
-$ terraform apply -help
+terraform apply -help
 ```
 
 ## Part 2 - Build AWS Infrastructure with Terraform
@@ -91,7 +91,7 @@ $ terraform apply -help
 - Your AWS credentials configured locally. 
 
 ```bash
-$ aws configure
+aws configure
 ```
 
 - Hard-coding credentials into any Terraform configuration is not recommended, and risks secret leakage should this file ever be committed to a public version control system. Using AWS credentials in EC2 instance is not recommended.
@@ -119,7 +119,7 @@ $ aws configure
 - Each configuration should be in its own directory. Create a directory ("terraform-aws") for the new configuration and change into the directory.
 
 ```bash
-$ mkdir terraform-aws && cd terraform-aws && touch main.tf
+mkdir terraform-aws && cd terraform-aws && touch main.tf
 ```
 
 - Install the `HashiCorp Terraform` extension in VSCode.
@@ -180,7 +180,7 @@ When you create a new configuration you need to initialize the directory with `t
 - Initialize the directory.
 
 ```bash
-$ terraform init
+terraform init
 
 Initializing the backend...
 
@@ -209,7 +209,7 @@ Terraform downloads the `aws` provider and installs it in a hidden subdirectory 
 - Run `terraform plan`. You should see an output similar to the one shown below.
 
 ```bash
-$ terraform plan
+terraform plan
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -338,7 +338,7 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 - Terraform has a command called `terraform state` for advanced state management. For example, if you have a long state file (detailed) and you just want to see the name of your resources, which you can get them by using the `list` subcommand.
 
 ```bash
-$ terraform state list
+terraform state list
 aws_instance.tf-ec2
 ```
 
